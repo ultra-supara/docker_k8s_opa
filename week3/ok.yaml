@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ok-pod
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.20
+    resources:
+      limits:
+        cpu: "500m"

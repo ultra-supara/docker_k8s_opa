@@ -1,0 +1,21 @@
+#todo: コンテナのsecurtiyContext.privilegedがtrueに設定されている場合にviolationルールがエラーメッセージを返すような実装
+
+apiVersion: templates.gatekeeper.sh/v1beta1
+kind: ConstraintTemplate
+metadata:
+    name: privilegedcontainerconstraint
+spec:
+    crd:
+        spec:
+            names:
+                kind: PrivilegedContainerConstraint
+    targets:
+    - target: admission.k8s.gatekeeper.sh
+    rego: |
+        package privilegedcontainerconstraint
+
+        violation[{"msg": msg}]{
+        container := input.review.object.spec.containers[_]
+        container.securityContext.privileged
+        msg := "特権コンテナは許可されていません"
+        }
